@@ -12,16 +12,16 @@ import utilities
 def main():
     # usage python main [userId] [cosine|prod](cosine by default)
     # opt : cosine => cosine-based similarity
-    # opt : prob => conditional probability-based similarity 
+    # opt : prob => conditional probability-based similarity
     user_id, opt = sys.argv[1:]
     user_id = int(user_id)
     opt = str(opt)
 
     print("Building recommendation for user : {:d}".format(user_id))
     # TRIPLETS FILE
-    file_tt = "data/train_triplets_sub.txt"
+    file_tt = "data/year1_test_triplets_visible.txt"
     # We used kaggle evaluation triplets since they are different from our training
-    file_tev = "data/kaggle_visible_evaluation_triplets.txt"
+    file_tev = "data/year1_test_triplets_hidden.txt"
 
     print("Load Users from users list")
     users = list(utilities.load_users("data/kaggle_users.txt"))
@@ -67,7 +67,7 @@ def main():
     rec = recommender.Recommender(songs_ordered, pr)
 
     res = rec.recommend(users[user_id], u_s)
-    utilities.save_recommendations(res, "result.txt")
+    utilities.save_recommendations(res, "data/result.txt")
 
     # Evaluation
     # yp = np.array([])

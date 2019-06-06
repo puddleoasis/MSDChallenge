@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # if you want to use the print_result() function, please add your key and comment the next line
-from pyechonest import song
+# from pyechonest import song
 
 
 # set API key
@@ -17,19 +17,19 @@ def get_song_id(id):
                 return line[0]
 
 
-def print_results():
-    """ This function prints out the recommended song (name,artist) with their hotttnesss ranking according to the
-    EchoNest API """
-    with open("result.txt", 'r') as file:
-        for line in file:
-            list = line.strip().split()
-            for song_id in list:
-                try:
-                    s = song.Song(str(song_id))
-                    print("%s | %s - %s" % (s.song_hotttnesss, s, s.artist_name))
-                except Exception as exception:
-                    print("Exception : {}. Can't get information about song {}".format(exception, song_id))
-                    continue
+# def print_results():
+#     """ This function prints out the recommended song (name,artist) with their hotttnesss ranking according to the
+#     EchoNest API """
+#     with open("result.txt", 'r') as file:
+#         for line in file:
+#             list = line.strip().split()
+#             for song_id in list:
+#                 try:
+#                     s = song.Song(str(song_id))
+#                     print("%s | %s - %s" % (s.song_hotttnesss, s, s.artist_name))
+#                 except Exception as exception:
+#                     print("Exception : {}. Can't get information about song {}".format(exception, song_id))
+#                     continue
 
 
 def count_songs(file):
