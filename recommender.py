@@ -14,7 +14,7 @@ import utilities
 class Recommender:
     def __init__(self, _all_songs, _predictor, _k=10):
         """ This is the recommender constructor with default k = 10"""
-        print("Initialize recommender")
+        # print("Initialize recommender")
         self.predictor = _predictor
         self.all_songs = _all_songs
         self.k = _k
@@ -26,7 +26,7 @@ class Recommender:
         """
         songs_sorted = list()
         p = self.predictor
-        print("Building recommendation - Fetching top items (ordered)")
+        # print("Building recommendation - Fetching top items (ordered)")
         if user in u_s:
             s_songs = utilities.sort_dict(p.score(u_s[user], self.all_songs))
         else:
