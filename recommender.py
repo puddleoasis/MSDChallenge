@@ -24,44 +24,13 @@ class Recommender:
         - References :
             * Item-Based Top-N Recommendation Algorithms, 4.2 Applying the model - Mukund Deshpande, George Karypis.
         """
-        # songs_sorted = list()
         p = self.predictor
         # print("Building recommendation - Fetching top items (ordered)")
         if user in u_s:
-            recomendable_songs = list(set(self.all_songs) - set(u_s[user]))
+            recomendable_songs = list(set(self.all_songs) - set(u_s[user])) #dont recomend songs in training data...
             s_songs = utilities.sort_dict(p.score(u_s[user], recomendable_songs))
         else:
             # if user not in the matrix we recommend the best songs
             s_songs = list(self.all_songs)
 
-        return s_songs[:self.k]
-        # i = 0
-        # top_k_hidden_songs = []
-        # while (i < self.k) and (s_songs[i] not in u_s[user]):
-        #     top_k_hidden_songs.append(s)
-        #     i += 1
-        # return top_k_hidden_songs
-
-
-        # cleaned_songs = list()
-        # for x in s_songs:
-        #     if len(cleaned_songs) >= self.k:
-        #         break
-        #     if x not in u_s[user]:
-        #         cleaned_songs.append(x)
-        #
-        # songs_sorted += [cleaned_songs]
-        #
-        # r = list()
-        # ii = [0]
-        #
-        # # Top-K items
-        # while len(r) < self.k:
-        #     s = songs_sorted[0][ii[0]]
-        #     if s in r:
-        #         continue
-        #     else:
-        #         r.append(s)
-        #     ii[0] += 1
-        #
-        # return r
+        return s_songs[:self.k] #top k items
