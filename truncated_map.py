@@ -43,7 +43,7 @@ def mean_average_precision(training_m, testing_m):
     return np.mean([average_precision(training_m[key], testing_m[key]) for key in testing_m.keys()])
 
 
-def test_predictions(training_file, testing_file, k=500):
+def test_predictions(training_file, testing_file, k=10):
     testing_matrix = utilities.user_to_songs(testing_file)
 
     counted_songs = utilities.count_songs(training_file)
@@ -52,28 +52,41 @@ def test_predictions(training_file, testing_file, k=500):
 
     train_matrix = {}
 
-    recFiles = ['UserBasedRecs', 'PopularityBasedRecs', 'ItemBasedRecs']
-    for file in recFiles:
-        with open('generatedRecommendations/'+file, 'r') as recd:
-            for line in recd:
-                d = line.strip().split()
-                u, s = d[0], d[1:]
-                train_matrix[u] = s
-        canonical_users = []
-        with open('data/kaggle_users.txt', 'r') as f:
-            canonical_users = map(lambda line: line.strip(), f.readlines())
-            for cu in canonical_users:
-                if cu not in train_matrix.keys():
-                    train_matrix[cu] = top_songs
-        mAP = mean_average_precision(train_matrix,testing_matrix)
-        print(file, testing_file, mAP)
+    # Use main.py to generate either UserBasedRecs or ItemBasedRecs. #
+    # Then uncomment the code below an ensure the path is correct.
+
+    # The User and Item based recommendations take a long time to generate.
+    # Writting them to a file will allow us to test the results with a different
+    # metric in the future.
+
+    # recommendationFiles = ['UserBasedRecs', 'ItemBasedRecs']
+    # for file in recommendationFiles:
+    #     with open('generatedRecommendations/'+file, 'r') as recd:
+    #         for line in recd:
+    #             d = line.strip().split()
+    #             user, songs = d[0], d[1:]
+    #             train_matrix[user] = songs
+
+
+
+    #This code assigns the most popular songs to each user:
+    # (We discuss this in the Recommended Experiments Section of the paper)
+    canonical_users = []
+    # add any user that might appear in our testing data.
+    with open('data/kaggle_users.txt', 'r') as f:
+        canonical_users = map(lambda line: line.strip(), f.readlines())
+        for cu in canonical_users:
+            if cu not in train_matrix.keys():
+                train_matrix[cu] = top_songs
+    mAP = mean_average_precision(train_matrix,testing_matrix)
+    print('testing file:', testing_file, 'mAP=', mAP, 'k=',k)
 
 
 def main():
-    test_predictions("data/kaggle_visible_evaluation_triplets.txt", "data/year1_valid_triplets_visible.txt") #partial
-    test_predictions("data/kaggle_visible_evaluation_triplets.txt", "data/year1_test_triplets_visible.txt")  #full
-    test_predictions("data/kaggle_visible_evaluation_triplets.txt", "data/year1_valid_triplets_hidden.txt")  #partial
-    test_predictions("data/kaggle_visible_evaluation_triplets.txt", "data/kaggle_visible_evaluation_triplets.txt") #full
+    test_predictions("data/kaggle_visible_evaluation_triplets.txt", "data/year1_valid_triplets_visible.txt", k=500) #partial
+    # test_predictions("data/kaggle_visible_evaluation_triplets.txt", "data/year1_test_triplets_visible.txt")  #full
+    # test_predictions("data/kaggle_visible_evaluation_triplets.txt", "data/year1_valid_triplets_hidden.txt")  #partial
+    # test_predictions("data/kaggle_visible_evaluation_triplets.txt", "data/kaggle_visible_evaluation_triplets.txt") #full
 
     # test_precision("data/year1_test_triplets_hidden.txt", "data/year1_test_triplets_hidden.txt") #full
     # test_precision("data/year1_test_triplets_visible.txt", "data/year1_test_triplets_visible.txt")  #partial

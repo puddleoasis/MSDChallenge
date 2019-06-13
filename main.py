@@ -22,21 +22,20 @@ def log_result(result):
     user, songs_recs = result[0], result[1]
     # This is called whenever pool.apply_async(i) returns a result.
     # called only by the main process, not the pool workers.
-    with open('UserBasedRecs', 'a') as recs:
+    with open('ItemBasedPrediction', 'a') as recs:
         recs.write(user + ' ' + ' '.join(songs_recs) +'\n')
 
 
-def evaluate_algorithm(training_file, testing_file):
+def generate_prediction(training_file, testing_file, all_songs):
     s_u = utilities.song_to_users(training_file) #dict songs:{users}
 
-    # pr = prediction.ItemBasedPrediction(s_u, _sim=0)
-    pr = prediction.UserBasedPrediction(s_u)
+    pr = prediction.ItemBasedPrediction(s_u, _sim=0)
+    # pr = prediction.UserBasedPrediction(s_u)
     rec = recommender.Recommender(all_songs, pr)
 
     u_s = utilities.user_to_songs(testing_file)
 
     pool = Pool(4)
-    t = time.time()
     for user in u_s.keys():
         pool.apply_async(parallel_rec_worker, args = (user,rec,u_s,), callback = log_result)
 
@@ -52,7 +51,7 @@ def main():
     training_file = "data/kaggle_visible_evaluation_triplets.txt"
     testing_file = "data/year1_valid_triplets_hidden.txt"
     songs_ordered = utilities.sort_dict(utilities.count_songs(training_file))
-    evaluate_algorithm(training_file, testing_file, songs_ordered) #took out metric: mAP (goes here)
+    generate_prediction(training_file, testing_file, songs_ordered) #took out metric: mAP (goes here)
 
 
 if __name__ == "__main__":
