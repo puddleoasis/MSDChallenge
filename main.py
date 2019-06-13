@@ -10,7 +10,6 @@ import truncated_map
 
 from multiprocessing import Pool
 
-# import numpy as np
 
 def parallel_rec_worker(user, rec, u_s):
     # print('working on rec')

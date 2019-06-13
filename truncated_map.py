@@ -4,9 +4,10 @@
 """ This scripts provides functions for computing the Mean Average Precision
  - reference to the formulas used in this script :
  The Million Song Dataset Challenge - Thierry Bertin-Mahieux, Brian McFee """
-import numpy as np
 
+import numpy as np
 import utilities
+
 
 def average_precision(rec_songs, actual_songs, k=999):
     """ This function computes the average precision at each recall point
