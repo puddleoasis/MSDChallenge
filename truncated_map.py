@@ -60,11 +60,12 @@ def test_predictions(training_file, testing_file, k=10):
     # metric in the future.
 
     # recommendationFiles = ['UserBasedRecs', 'ItemBasedRecs']
+    # recommendationFiles = ['ItemBasedPrediction']
     # for file in recommendationFiles:
-    #     with open('generatedRecommendations/'+file, 'r') as recd:
+    #     with open(file, 'r') as recd:
     #         for line in recd:
     #             d = line.strip().split()
-    #             user, songs = d[0], d[1:]
+    #             user, songs = d[0], d[1:k]
     #             train_matrix[user] = songs
 
 
@@ -72,7 +73,7 @@ def test_predictions(training_file, testing_file, k=10):
     #This code assigns the most popular songs to each user:
     # (We discuss this in the Recommended Experiments Section of the paper)
     canonical_users = []
-    # add any user that might appear in our testing data.
+    add any user that might appear in our testing data.
     with open('data/kaggle_users.txt', 'r') as f:
         canonical_users = map(lambda line: line.strip(), f.readlines())
         for cu in canonical_users:
@@ -83,10 +84,11 @@ def test_predictions(training_file, testing_file, k=10):
 
 
 def main():
-    test_predictions("data/kaggle_visible_evaluation_triplets.txt", "data/year1_valid_triplets_visible.txt", k=500) #partial
-    # test_predictions("data/kaggle_visible_evaluation_triplets.txt", "data/year1_test_triplets_visible.txt")  #full
-    # test_predictions("data/kaggle_visible_evaluation_triplets.txt", "data/year1_valid_triplets_hidden.txt")  #partial
-    # test_predictions("data/kaggle_visible_evaluation_triplets.txt", "data/kaggle_visible_evaluation_triplets.txt") #full
+    for i in [10, 25, 50, 100, 250, 500]:
+        test_predictions("data/kaggle_visible_evaluation_triplets.txt", "data/year1_valid_triplets_visible.txt", k=i) #partial
+        # test_predictions("data/kaggle_visible_evaluation_triplets.txt", "data/year1_test_triplets_visible.txt", k=i)  #full
+        # test_predictions("data/kaggle_visible_evaluation_triplets.txt", "data/year1_valid_triplets_hidden.txt", k=i)  #partial
+        # test_predictions("data/kaggle_visible_evaluation_triplets.txt", "data/kaggle_visible_evaluation_triplets.txt", k=i) #full
 
     # test_precision("data/year1_test_triplets_hidden.txt", "data/year1_test_triplets_hidden.txt") #full
     # test_precision("data/year1_test_triplets_visible.txt", "data/year1_test_triplets_visible.txt")  #partial

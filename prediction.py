@@ -89,8 +89,8 @@ class ItemBasedPrediction:
 
 
 class UserBasedPrediction:
-    """ This script implements the UserBasedPrediction class 
-    - Reference : 
+    """ This script implements the UserBasedPrediction class
+    - Reference :
         * Fouille de données et aide à la decision - Cours d'introduction au datamining - Anne-Claire Haury
     """
 
@@ -99,7 +99,7 @@ class UserBasedPrediction:
         self.alpha = _alpha
 
     def score(self, user_songs, all_songs):
-        """ This function computes scores for each each user using user based similarity 
+        """ This function computes scores for each each user using user based similarity
         - param:
                 user_songs : user songs vector
                 all_songs  : training songs set

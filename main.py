@@ -14,6 +14,7 @@ from multiprocessing import Pool
 def parallel_rec_worker(user, rec, u_s):
     # print('working on rec')
     song_recs = rec.recommend(user, u_s)
+    # print('finshed')
     return [user, song_recs]
 
 #This callback writes a user and its recommended songs to a file.
@@ -22,26 +23,32 @@ def log_result(result):
     user, songs_recs = result[0], result[1]
     # This is called whenever pool.apply_async(i) returns a result.
     # called only by the main process, not the pool workers.
-    with open('ItemBasedPrediction', 'a') as recs:
+    with open('UserBasedPrediction2', 'a') as recs:
         recs.write(user + ' ' + ' '.join(songs_recs) +'\n')
 
 
 def generate_prediction(training_file, testing_file, all_songs):
-    s_u = utilities.song_to_users(training_file) #dict songs:{users}
+    # Reverse the comments in the next four lines of code to generate
+    # ItemBasedPredictions intead of UserBasedPredictions
 
-    pr = prediction.ItemBasedPrediction(s_u, _sim=0)
-    # pr = prediction.UserBasedPrediction(s_u)
-    rec = recommender.Recommender(all_songs, pr)
+    # s_u = utilities.song_to_users(training_file) #dict songs:{users}
+    # pr = prediction.ItemBasedPrediction(s_u, _sim=0)
+    u_s = utilities.user_to_songs(training_file) #dict songs:{users}
+    pr = prediction.UserBasedPrediction(u_s)
 
-    u_s = utilities.user_to_songs(testing_file)
+    # the recommender
+    rec = recommender.Recommender(all_songs, pr, _k=500)
+
+    testing_u_s = utilities.user_to_songs(testing_file)
 
     pool = Pool(4)
-    for user in u_s.keys():
-        pool.apply_async(parallel_rec_worker, args = (user,rec,u_s,), callback = log_result)
+    for user in testing_u_s.keys():
+        #recommend for each user-- songs they would like to listen to based on our recommender
+        pool.apply_async(parallel_rec_worker, args = (user,rec,testing_u_s,), callback = log_result)
 
     print('finished applying')
     pool.close()
-    print('about to join...')
+    print('will join when finished evaluating all users...')
     pool.join()
     print('finished jobs...')
 
