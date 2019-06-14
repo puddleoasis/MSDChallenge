@@ -23,7 +23,7 @@ def log_result(result):
     user, songs_recs = result[0], result[1]
     # This is called whenever pool.apply_async(i) returns a result.
     # called only by the main process, not the pool workers.
-    with open('UserBasedPrediction2', 'a') as recs:
+    with open('generatedRecommendations/ItemBasedPredictionNew', 'a') as recs:
         recs.write(user + ' ' + ' '.join(songs_recs) +'\n')
 
 
@@ -31,10 +31,10 @@ def generate_prediction(training_file, testing_file, all_songs):
     # Reverse the comments in the next four lines of code to generate
     # ItemBasedPredictions intead of UserBasedPredictions
 
-    # s_u = utilities.song_to_users(training_file) #dict songs:{users}
-    # pr = prediction.ItemBasedPrediction(s_u, _sim=0)
-    u_s = utilities.user_to_songs(training_file) #dict songs:{users}
-    pr = prediction.UserBasedPrediction(u_s)
+    s_u = utilities.song_to_users(training_file) #dict songs:{users}
+    pr = prediction.ItemBasedPrediction(s_u, _sim=0)
+    # u_s = utilities.user_to_songs(training_file) #dict songs:{users}
+    # pr = prediction.UserBasedPrediction(u_s)
 
     # the recommender
     rec = recommender.Recommender(all_songs, pr, _k=500)

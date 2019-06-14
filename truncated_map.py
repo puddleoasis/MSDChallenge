@@ -58,22 +58,20 @@ def test_predictions(training_file, testing_file, k=10):
     # The User and Item based recommendations take a long time to generate.
     # Writting them to a file will allow us to test the results with a different
     # metric in the future.
-
-    # recommendationFiles = ['UserBasedRecs', 'ItemBasedRecs']
-    # recommendationFiles = ['ItemBasedPrediction']
-    # for file in recommendationFiles:
-    #     with open(file, 'r') as recd:
-    #         for line in recd:
-    #             d = line.strip().split()
-    #             user, songs = d[0], d[1:k]
-    #             train_matrix[user] = songs
+    recommendationFiles = ['PopularityBasedRecs','ItemBasedPrediction']
+    file = recommendationFiles[0]
+    with open('generatedRecommendations/'+file, 'r') as recd:
+        for line in recd:
+            d = line.strip().split()
+            user, songs = d[0], d[1:k]
+            train_matrix[user] = songs
 
 
 
     #This code assigns the most popular songs to each user:
     # (We discuss this in the Recommended Experiments Section of the paper)
     canonical_users = []
-    add any user that might appear in our testing data.
+    # add any user that might appear in our testing data.
     with open('data/kaggle_users.txt', 'r') as f:
         canonical_users = map(lambda line: line.strip(), f.readlines())
         for cu in canonical_users:
@@ -89,10 +87,4 @@ def main():
         # test_predictions("data/kaggle_visible_evaluation_triplets.txt", "data/year1_test_triplets_visible.txt", k=i)  #full
         # test_predictions("data/kaggle_visible_evaluation_triplets.txt", "data/year1_valid_triplets_hidden.txt", k=i)  #partial
         # test_predictions("data/kaggle_visible_evaluation_triplets.txt", "data/kaggle_visible_evaluation_triplets.txt", k=i) #full
-
-    # test_precision("data/year1_test_triplets_hidden.txt", "data/year1_test_triplets_hidden.txt") #full
-    # test_precision("data/year1_test_triplets_visible.txt", "data/year1_test_triplets_visible.txt")  #partial
-    # test_precision("data/year1_valid_triplets_hidden.txt", "data/year1_valid_triplets_hidden.txt")  #full
-    # test_precision("data/year1_valid_triplets_visible.txt", "data/year1_valid_triplets_visible.txt") #partial
-    # test_precision("data/kaggle_visible_evaluation_triplets.txt", "data/kaggle_visible_evaluation_triplets.txt") #full
 main()
