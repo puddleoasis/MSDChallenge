@@ -2,13 +2,10 @@ MSDChallenge [WIP]
 ============
 
 # Abstract #
---------
-
 The Million Song Dataset Challenge is a largescale, personalized music recommendation challenge, where the goal is to predict the songs that a user will listen to, given both the user's listening history and full content-based information for all songs.
 We implement and report results for both user-based and item-based collaborative filtering algorithms and suggest approaches to combine these models to improve further recommendation.
 
 # Function #
---------
 This repository provides the ability to create recommendations for, and evaluation those recommendations for the The Million Song Dataset Challenge as presented by McFee, Brian and Bertin-Mahieux, Thierry and Ellis, Daniel P.W. and Lanckriet, Gert R.G. in "The Million Song Dataset Challenge."
 
 ## main.py ##
@@ -20,8 +17,8 @@ Because these recommendations take a long time to evaluate, we have generated th
 
 
 
-## License
+<!-- ## License
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">This work excluding code examples,</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/eliasah" property="cc:attributionName" rel="cc:attributionURL">Abou Haydar Elias</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
 /CC-SA-BY-4.0.txt).
 
-Accompanying code and code snippets are licensed under [MIT license](LICENSE/MIT.txt).
+Accompanying code and code snippets are licensed under [MIT license](LICENSE/MIT.txt). -->
